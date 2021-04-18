@@ -6,6 +6,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +31,7 @@ class MainActivity : AppCompatActivity() {
             R.id.bu8 -> cellId = 8
             R.id.bu9 -> cellId = 9
         }
-        Toast.makeText(this, "ID: "+cellId, Toast.LENGTH_LONG).show()
+//        Toast.makeText(this, "ID: "+cellId, Toast.LENGTH_LONG).show()
         PlayGame(cellId,buSelect)
     }
 
@@ -43,8 +46,9 @@ class MainActivity : AppCompatActivity() {
             buSelect.setBackgroundColor(Color.BLUE)
             player1.add(cellId)
             activePlayer = 2
+            AutoPlay()
         }else{
-            buSelect.text="X"
+            buSelect.text="0"
             buSelect.setBackgroundColor(Color.GREEN)
             player1.add(cellId)
             activePlayer = 1
@@ -112,5 +116,32 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, "Winer is Player 2", Toast.LENGTH_LONG).show()
             }
         }
+    }
+
+    fun AutoPlay(){
+        var emptyCell = ArrayList<Int>()
+        for(cellId in 0..9){
+            if(!(player1.contains(cellId) || player2.contains(cellId))){
+                emptyCell.add(cellId)
+            }
+        }
+        val r = Random()
+        val randomIndex = r.nextInt(emptyCell.size - 0) + 0
+        val cellId = emptyCell[randomIndex]
+
+        var buSelect:Button?
+        when(cellId){
+            1-> buSelect = bu1
+            2-> buSelect = bu2
+            3-> buSelect = bu3
+            4-> buSelect = bu4
+            5-> buSelect = bu5
+            6-> buSelect = bu6
+            7-> buSelect = bu7
+            8-> buSelect = bu8
+            9-> buSelect = bu9
+            else-> buSelect = bu1
+        }
+        PlayGame(cellId,buSelect)
     }
 }
